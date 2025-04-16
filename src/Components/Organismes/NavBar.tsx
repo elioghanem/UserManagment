@@ -19,11 +19,12 @@ const NavBar: FC = () => {
           <Button variant="primary">
             Create User
           </Button>
-          <Button variant="icon">
-            <BsMoon size={20} />
-          </Button>
+         
           <Button variant="danger" onClick={handleLogout}>
             Logout
+          </Button>
+          <Button variant="icon">
+            <BsMoon size={20} />
           </Button>
         </div>
       </div>

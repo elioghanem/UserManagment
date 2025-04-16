@@ -1,18 +1,28 @@
 import { FC, useState, FormEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Input } from '../Atoms/Input'
 import { Button } from '../Atoms/Button'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { useAuth } from '../../Store/Auth'
 
+interface LocationState {
+  from: {
+    pathname: string
+  }
+}
+
 const Login: FC = () => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  // Get the path they tried to access or default to /home
+  const from = (location.state as LocationState)?.from?.pathname || '/home'
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -22,7 +32,8 @@ const Login: FC = () => {
     try {
       const result = await login(email, password)
       if (result.success) {
-        navigate('/home')
+        // Navigate to the page they tried to visit or home
+        navigate(from, { replace: true })
       } else {
         setError(result.error || 'Invalid credentials')
       }
