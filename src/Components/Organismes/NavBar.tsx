@@ -16,7 +16,7 @@ const NavBar: FC = () => {
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-xl font-bold">User Management</h1>
         <div className="flex items-center gap-4">
-          <Button variant="primary">
+          <Button variant="primary" onClick={() => navigate('/dashboard/new')}>
             Create User
           </Button>
          
