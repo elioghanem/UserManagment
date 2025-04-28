@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -23,6 +23,7 @@ const statusOptions = [
 
 const NewUserForm: FC = () => {
   const navigate = useNavigate()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<UserForm>({
     resolver: zodResolver(userSchema),
     mode: 'onChange',
@@ -35,10 +36,12 @@ const NewUserForm: FC = () => {
 
   const onSubmit = async (data: UserForm) => {
     try {
+      setIsSubmitting(true)
       await mutation.mutateAsync(data)
-      navigate('/home')
+      navigate('/home', { state: { showSpinner: true } })
     } catch (error) {
       console.error('Error creating user:', error)
+      setIsSubmitting(false)
     }
   }
 

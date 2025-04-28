@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -24,6 +24,7 @@ const statusOptions = [
 const EditUser: FC = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const { data: user, isLoading: isLoadingUser } = useUser(id || '')
   const { register, handleSubmit, formState: { errors, isValid }, reset } = useForm<UserForm>({
     resolver: zodResolver(userSchema),
@@ -40,10 +41,12 @@ const EditUser: FC = () => {
 
   const onSubmit = async (data: UserForm) => {
     try {
+      setIsSubmitting(true)
       await mutation.mutateAsync(data)
-      navigate('/home')
+      navigate('/home', { state: { showSpinner: true, action: 'update' } })
     } catch (error) {
       console.error('Error updating user:', error)
+      setIsSubmitting(false)
     }
   }
 

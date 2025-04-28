@@ -35,7 +35,6 @@ export const useUserMutation = () => {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['users'] })
-      toast.success('User created successfully!')
     },
     onError: () => {
       toast.error('Failed to create user')

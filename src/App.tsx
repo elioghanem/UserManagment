@@ -15,16 +15,16 @@ const queryClient = new QueryClient()
 const App: FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Router>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route 
-              path="/home" 
-              element={
-                <Protected>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route 
+            path="/home" 
+            element={
+              <Protected>
                   <DashboardLayout>
-                    <Home />
+                <Home />
                   </DashboardLayout>
                 </Protected>
               } 
@@ -46,14 +46,14 @@ const App: FC = () => {
                   <DashboardLayout>
                     <EditUser />
                   </DashboardLayout>
-                </Protected>
-              } 
-            />
-            <Route path="/" element={<Navigate to="/login" replace />} />
-          </Routes>
-        </Router>
+              </Protected>
+            } 
+          />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Router>
         <Toaster position="top-right" />
-      </AuthProvider>
+    </AuthProvider>
     </QueryClientProvider>
   )
 }
